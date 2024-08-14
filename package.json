@@ -1,0 +1,34 @@
+{
+  "name": "xvm-syntax",
+  "displayName": "XVM-Syntax",
+  "description": "Highlight syntax of code used within the XELIS VM",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.92.0"
+  },
+  "categories": [
+    "Programming Languages"
+  ],
+  "contributes": {
+    "languages": [
+      {
+        "id": "XVM",
+        "aliases": [
+          "Xelis VM",
+          "XVM"
+        ],
+        "extensions": [
+          ".xel"
+        ],
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "XVM",
+        "scopeName": "source.xvm",
+        "path": "./syntaxes/XVM.tmLanguage.json"
+      }
+    ]
+  }
+}

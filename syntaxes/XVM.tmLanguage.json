@@ -1,0 +1,284 @@
+{
+	"$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+	"name": "Xelis VM",
+	"patterns": [
+		{
+			"include": "#comments"
+		},
+		{
+			"include": "#strings"
+		},
+		{
+			"include": "#structs"
+		},
+		{
+			"include": "#functions"
+		},
+		{
+			"include": "#keywords"
+		},
+		{
+			"include": "#operators"
+		},
+		{
+			"include": "#punctuation"
+		},
+		{
+			"include": "#numbers"
+		},
+		{
+			"include": "#variables"
+		}
+	],
+	"repository": {
+		"comments": {
+			"patterns": [
+				{
+					"begin": "//",
+					"end": "$",
+					"name": "comment.line.double-slash.XVM"
+				},
+				{
+					"begin": "/\\*",
+					"end": "\\*/$",
+					"name": "comment.block.XVM"
+				}
+			]
+		},
+		"keywords": {
+			"patterns": [
+				{
+					"match": "\\b(while|for|foreach|in)\\b",
+					"name": "keyword.control.repeat.XVM"
+				},
+				{
+					"match": "\\b(break|return|continue)\\b",
+					"name": "keyword.control.flow.XVM"
+				},
+				{
+					"match": "\\b(if|else)\\b",
+					"name": "keyword.control.conditional.XVM"
+				},
+				{
+					"match": "\\b(null|true|false)\\b",
+					"name": "keyword.constant.XVM"
+				},
+				{
+					"match": "\\b(func|entry)\\b",
+					"name": "keyword.function.XVM"
+				},
+				{
+					"match": "\\bstruct\\b",
+					"name": "keyword.struct.XVM"
+				},
+				{
+					"match": "\\b(u8|u16|u32|u64|u128|string|bool)\\b",
+					"name": "entity.name.type.XVM"
+				},
+				{
+					"match": "\\b(println)",
+					"name": "support.function.XVM"
+				}
+			]
+		},
+		"numbers": {
+			"patterns": [
+				{
+					"match": "\\b[0-9][0-9_]*\\b",
+					"name": "constant.numeric.decimal.XVM"
+				},
+				{
+					"match": "\\b0x[a-fA-F0-9_]+\\b",
+					"name": "constant.numeric.hexadecimal.XVM"
+				}
+			]
+		},
+		"operators": {
+			"patterns": [
+				{
+					"match": "(==|!=|<=|>=|<|>)",
+					"name": "keyword.operator.comparison.XVM"
+				},
+				{
+					"match": "(-|\\+|\\*|/|%)=?",
+					"name": "keyword.operator.arithmetic.XVM"
+				},
+				{
+					"match": "(<<|>>|!|~|&|\\^|\\|)=?",
+					"name": "keyword.operator.bitwise.XVM"
+				},
+				{
+					"match": "=",
+					"name": "keyword.operator.assignment.XVM"
+				},
+				{
+					"match": "\\?",
+					"name": "keyword.operator.question.XVM"
+				}
+			]
+		},
+		"punctuation": {
+			"patterns": [
+				{
+					"match": "\\.",
+					"name": "punctuation.accessor.XVM"
+				},
+				{
+					"match": ",",
+					"name": "punctuation.comma.XVM"
+				},
+				{
+					"match": ";",
+					"name": "punctuation.terminator.statement.XVM"
+				}
+			]
+		},
+		"stringcontent": {
+			"patterns": [
+				{
+					"match": "\\\\([nrt'\"\\\\]|(x[0-9a-fA-F]{2})|(u\\{[0-9a-fA-F]+\\}))",
+					"name": "constant.character.escape.zig"
+				},
+				{
+					"match": "\\\\.",
+					"name": "invalid.illegal.unrecognized-string-escape.zig"
+				}
+			]
+		},
+		"strings": {
+			"patterns": [
+				{
+					"begin": "\"",
+					"end": "\"",
+					"name": "string.quoted.double.XVM",
+					"patterns": [
+						{
+							"include": "#stringcontent"
+						}
+					]
+				}
+			]
+		},
+		"structs": {
+			"patterns": [
+				{
+					"match": "\\b(struct)\\s+(\\w+)\\b",
+					"captures": {
+						"1": {
+							"name": "keyword.structure.XVM"
+						},
+						"2": {
+							"name": "entity.name.type.struct.XVM"
+						}
+					}
+				}
+			]
+		},
+		"functions": {
+			"patterns": [
+				{
+					"name": "meta.function.declaration.XVM",
+					"match": "\\b(func)\\s+\\(\\s*(\\w+)\\s+(\\w+)\\)\\s*([_a-zA-Z][_a-zA-Z0-9]*)",
+					"comment": "Example match `func (r Rectangle) area`",
+					"captures": {
+						"1": {
+							"name": "storage.type.function.XVM"
+						},
+						"2": {
+							"name": "variable.XVM"
+						},
+						"3": {
+							"name": "entity.name.type.struct.XVM"
+						},
+						"4": {
+							"name": "entity.name.function.XVM"
+						}
+					}
+				}
+			]
+		},
+		"variables": {
+			"patterns": [
+				{
+					"name": "meta.variable.XVM",
+					"match": "\\b(const|let)\\s+([a-zA-Z0-9_]+):\\s+([a-zA-Z0-9_]+)\\b",
+					"captures": {
+						"1": {
+							"name": "storage.modifier.XVM"
+						},
+						"2": {
+							"name": "variable.XVM"
+						},
+						"3": {
+							"name": "entity.name.type.XVM"
+						}
+					}
+				},
+				{
+					"name": "meta.function.declaration.XVM",
+					"patterns": [
+						{
+							"match": "\\b(func|entry)\\s+([A-Z][a-zA-Z0-9]*)\\b",
+							"captures": {
+								"1": {
+									"name": "storage.type.function.XVM"
+								},
+								"2": {
+									"name": "entity.name.type.XVM"
+								}
+							}
+						},
+						{
+							"match": "\\b(func|entry)\\s+([_a-zA-Z][_a-zA-Z0-9]*)\\b",
+							"captures": {
+								"1": {
+									"name": "storage.type.function.XVM"
+								},
+								"2": {
+									"name": "entity.name.function.XVM"
+								}
+							}
+						},
+						{
+							"match": "\\b(const|let)\\b",
+							"name": "keyword.default.zig"
+						}
+					]
+				},
+				{
+					"name": "meta.function.call.zig",
+					"patterns": [
+						{
+							"match": "([A-Z][a-zA-Z0-9]*)(?=\\s*\\()",
+							"name": "entity.name.type.zig"
+						},
+						{
+							"match": "([_a-zA-Z][_a-zA-Z0-9]*)(?=\\s*\\()",
+							"name": "entity.name.function.zig"
+						}
+					]
+				},
+				{
+					"name": "meta.variable.XVM",
+					"patterns": [
+						{
+							"match": "\\b[_a-zA-Z][_a-zA-Z0-9]*\\b",
+							"name": "variable.XVM"
+						},
+						{
+							"begin": "@\"",
+							"end": "\"",
+							"name": "variable.string.zig",
+							"patterns": [
+								{
+									"include": "#stringcontent"
+								}
+							]
+						}
+					]
+				}
+			]
+		}
+	},
+	"scopeName": "source.xvm"
+}
